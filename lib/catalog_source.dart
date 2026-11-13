@@ -1,0 +1,126 @@
+import 'lesson_model.dart';
+export 'lesson_model.dart';
+part 'additional_lessons.dart';
+
+const entryLessons = [
+  Lesson(
+    'fp',
+    'Fundamentos de Programación',
+    'Contar sin perder el cero',
+    'Distingue un valor positivo de uno no negativo.',
+    'Un torno cuenta cada lectura que cumple una condición. Para −2, 0 y 3 el contador de valores no negativos pasa por 0, 1 y 2. El cero también cuenta.',
+    [
+      Question(
+        'Completa el operador para contar valores no negativos.\n\nn = 0\nfor x in valores:\n    if x __ 0:\n        n += 1',
+        [],
+        0,
+        [],
+      ),
+      Question(
+        'Ahora contamos solo positivos. ¿Qué condición usarías?',
+        ['x >= 0', 'x > 0', 'x == 0'],
+        1,
+        [
+          'Esta condición sigue incluyendo el cero.',
+          'El cero queda fuera. Los valores mayores que cero sí cuentan.',
+          'La igualdad acepta únicamente el cero.',
+        ],
+      ),
+      Question(
+        'Con la condición x > 0, ¿qué devuelve el contador para [0, −2, 3]?',
+        ['1', '2', '3'],
+        0,
+        [
+          'Solo 3 pasa la prueba.',
+          'El cero no supera la prueba estricta.',
+          'El bucle visita tres valores, pero solo uno incrementa el contador.',
+        ],
+      ),
+    ],
+  ),
+  Lesson(
+    'rc',
+    'Redes de Computadores',
+    'El primer salto',
+    'Decide cuándo entregar una trama a la puerta de enlace.',
+    'Piensa en un repartidor. Para salir del barrio entrega primero el paquete a un intermediario. Nuestro equipo es 192.0.2.10/24 y su puerta de enlace, 192.0.2.1. Suponemos una LAN Ethernet, sin rutas especiales. En /24, las tres primeras partes identifican la red.',
+    [
+      Question(
+        'Queremos llegar a 198.51.100.7. ¿Cuál es el primer salto?',
+        ['198.51.100.7', '192.0.2.1', '192.0.2.10'],
+        1,
+        [
+          'Esa es la IP final. Está fuera de la LAN.',
+          'La trama va a la puerta de enlace local.',
+          'Esa es la dirección del emisor.',
+        ],
+      ),
+      Question(
+        '¿Qué IP de destino lleva el paquete en ese primer salto?',
+        ['192.0.2.1', '198.51.100.7'],
+        1,
+        [
+          'La trama se dirige al router, pero el paquete mantiene la IP final.',
+          'La IP final sigue siendo 198.51.100.7.',
+        ],
+      ),
+      Question(
+        'En la misma LAN queremos enviar a 192.0.2.44. ¿A quién entregamos la trama?',
+        ['Al router', 'Al propio equipo', 'Al equipo 192.0.2.44'],
+        2,
+        [
+          'Ambos equipos comparten el prefijo /24.',
+          'El destino tiene otra dirección.',
+          'El destino pertenece a la red local. Se entrega directamente.',
+        ],
+      ),
+    ],
+  ),
+  Lesson(
+    'ac',
+    'Arquitectura de Computadores',
+    'Una caché de una línea',
+    'Predice cuándo se reutiliza un bloque en memoria caché.',
+    'Una bandeja guarda el último libro que consultaste. Nuestra caché empieza vacía, con una línea que guarda un solo bloque. Si llega otro bloque, reemplaza al anterior. Consultar el mismo bloque mientras sigue ahí es un acierto.',
+    [
+      Question(
+        'Leemos A, A, B. ¿Qué ocurre?',
+        [
+          'Fallo, acierto, fallo',
+          'Acierto, acierto, fallo',
+          'Fallo, fallo, fallo',
+        ],
+        0,
+        [
+          'La primera A llena la línea. La segunda A ya está. B reemplaza a A.',
+          'La caché empezó vacía.',
+          'La segunda lectura encuentra A.',
+        ],
+      ),
+      Question(
+        'Tras A, A, B llega otra A. ¿Qué ocurre?',
+        ['Acierto', 'Fallo'],
+        1,
+        [
+          'La línea contiene B, aunque A se leyera antes.',
+          'B reemplazó a A. Hay que traer A de nuevo.',
+        ],
+      ),
+      Question(
+        'Partiendo de caché vacía, ¿cuántos aciertos hay en A, B, B, A?',
+        ['0', '2', '1'],
+        2,
+        [
+          'La segunda B sigue en caché.',
+          'Al final, A ya había sido reemplazada.',
+          'Solo la segunda B se encuentra en la línea.',
+        ],
+      ),
+    ],
+  ),
+];
+
+const lessons = [...entryLessons, ...additionalLessons];
+
+List<Lesson> subjectRoute(String subjectId) =>
+    lessons.where((lesson) => lesson.subjectId == subjectId).toList();
